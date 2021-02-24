@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class File extends Model
+class Image extends Model
 {
     use HasFactory;
 
@@ -17,9 +17,9 @@ class File extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'path'
+        'path',
+        'file_id',
+        'name'
     ];
 
     /**
@@ -41,40 +41,8 @@ class File extends Model
     /**
      * @return BelongsTo
      */
-    public function user()
+    public function file()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function upvotes()
-    {
-        return $this->hasMany(Upvote::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function downvotes()
-    {
-        return $this->hasMany(Downvote::class);
+        return $this->belongsTo(File::class);
     }
 }

@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Comment extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +17,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_id',
+        'text',
+        'file_id'
     ];
 
     /**
@@ -29,8 +28,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
     ];
 
     /**
@@ -39,22 +36,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
     ];
 
     /**
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function files()
+    public function user()
     {
-        return $this->hasMany(File::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function comments()
+    public function file()
     {
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo(File::class);
     }
 }

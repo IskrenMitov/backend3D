@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class File extends Model
+class Upvote extends Model
 {
     use HasFactory;
 
@@ -17,9 +16,8 @@ class File extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'path'
+        'user_id',
+        'file_id'
     ];
 
     /**
@@ -47,34 +45,10 @@ class File extends Model
     }
 
     /**
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function comments()
+    public function file()
     {
-        return $this->hasMany(Comment::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function upvotes()
-    {
-        return $this->hasMany(Upvote::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function downvotes()
-    {
-        return $this->hasMany(Downvote::class);
+        return $this->belongsTo(File::class);
     }
 }
