@@ -19,6 +19,7 @@ class CreateFilesTable extends Migration
             $table->mediumText('description')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->string('path')->nullable();
+            $table->boolean('disabled')->default(false);
             $table->timestamps();
         });
     }

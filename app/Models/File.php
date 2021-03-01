@@ -19,7 +19,8 @@ class File extends Model
     protected $fillable = [
         'name',
         'description',
-        'path'
+        'path',
+        'disabled'
     ];
 
     /**
