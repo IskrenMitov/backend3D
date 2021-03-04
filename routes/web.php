@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DownvoteController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\UpvoteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +28,8 @@ Route::get('/', function () {
 Route::apiResources([
     'users' => UserController::class,
     'files' => FileController::class,
+    'images' => ImageController::class,
+    'comments' => CommentController::class,
+    'downvotes' => DownvoteController::class,
+    'upvotes' => UpvoteController::class,
 ]);
