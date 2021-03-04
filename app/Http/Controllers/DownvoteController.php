@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Downvote;
 use Illuminate\Http\Request;
 
 class DownvoteController extends Controller
@@ -24,7 +25,17 @@ class DownvoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'file_id' => 'required|exists:files,id',
+        ]);
+
+        $downvote = Downvote::create([
+            'user_id' => $validated['user_id'],
+            'file_id' => $validated['file_id'],
+        ]);
+
+        return response()->json($downvote, 200);
     }
 
     /**
@@ -58,6 +69,9 @@ class DownvoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Downvote::destroy($id))
+            return response()->json('Success', 200);
+        else
+            return response()->json('An error ocurred while deleting the object.', 500);
     }
 }

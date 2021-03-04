@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(User::findOrFail($id), 200);
     }
 
     /**
@@ -69,7 +69,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'email' => 'required|unique:users|max:255',
+            'name' => 'required|min:4|max:255',
+            'password' => 'required|min:6'
+        ]);
+
+
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->password = bcrypt($validated['password']);
+        $user->save();
+
+        return response()->json($user, 200);
     }
 
     /**
@@ -80,6 +94,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->disabled = true;
+        $user->save();
+        return response()->json($user, 200);
     }
 }

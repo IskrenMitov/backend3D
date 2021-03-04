@@ -19,8 +19,7 @@ class File extends Model
     protected $fillable = [
         'name',
         'description',
-        'path',
-        'disabled'
+        'path'
     ];
 
     /**
@@ -37,6 +36,10 @@ class File extends Model
      * @var array
      */
     protected $casts = [
+    ];
+
+    protected $attributes = [
+        'disabled' => false
     ];
 
     /**

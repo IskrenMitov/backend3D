@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
@@ -13,7 +15,7 @@ class ImageController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Image::all(), 200);
     }
 
     /**
@@ -24,7 +26,19 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'path' => 'required|max:255',
+            'file_id' => 'required|exists:files,id',
+        ]);
+
+        $image = Image::create([
+            'name' => $validated['name'],
+            'path' => $validated['path'],
+            'file_id' => $validated['file_id'],
+        ]);
+
+        return response()->json($image, 200);
     }
 
     /**
@@ -35,7 +49,7 @@ class ImageController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Image::findOrFail($id), 200);
     }
 
     /**
@@ -58,6 +72,9 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Image::destroy($id))
+            return response()->json('Success', 200);
+        else
+            return response()->json('An error ocurred while deleting the object.', 500);
     }
 }

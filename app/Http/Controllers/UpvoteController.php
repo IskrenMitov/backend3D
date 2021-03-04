@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
+use App\Models\Upvote;
 use Illuminate\Http\Request;
 
 class UpvoteController extends Controller
@@ -24,7 +26,17 @@ class UpvoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'file_id' => 'required|exists:files,id',
+        ]);
+
+        $upvote = Upvote::create([
+            'user_id' => $validated['user_id'],
+            'file_id' => $validated['file_id'],
+        ]);
+
+        return response()->json($upvote, 200);
     }
 
     /**
@@ -58,6 +70,9 @@ class UpvoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Upvote::destroy($id))
+            return response()->json('Success', 200);
+        else
+            return response()->json('An error ocurred while deleting the object.', 500);
     }
 }
